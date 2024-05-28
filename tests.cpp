@@ -253,18 +253,18 @@ int main()
 {
     r1.seed(SEED);
     std::clog << "Testes iniciados com seed = " <<  SEED << '\n';
-    // testar_euclides_estendido();
-    // testar_inverso_modular();
-    // testar_exp_binaria();
-    // testar_primalidade_pequena();
-    // testar_primo_fermat();
-    // testar_teste_miller();
-    // testar_miller_rabin();
-    // testar_primo_aleatorio();
-    // testar_gera_chaves();
-    // testar_codifica();
-    // testar_decodifica();
-    // testar_criptografia_completa();
+    testar_euclides_estendido();
+    testar_inverso_modular();
+    testar_exp_binaria();
+    testar_primalidade_pequena();
+    testar_primo_fermat();
+    testar_teste_miller();
+    testar_miller_rabin();
+    testar_primo_aleatorio();
+    testar_gera_chaves();
+    testar_codifica();
+    testar_decodifica();
+    testar_criptografia_completa();
     testar_gerar_primo_seguro();
 
     // estimar_bitagem_primo_aleatorio();
