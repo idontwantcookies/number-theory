@@ -1,29 +1,26 @@
-from functools import lru_cache
-from math import sqrt, floor, isqrt, ceil, log10
+from itertools import tee
+from math import  floor, ceil, log10
 from random import getrandbits, randint
-from fractions import Fraction
 
+
+def isqrt(n):
+	# integer square root using binary search. Time complexity: O(log(n))
+	L = 0
+	R = n + 1
+	while L != R - 1:
+		M = (L + R) // 2
+		if M * M <= n:
+			L = M
+		else:
+			R = M
+	return L
 
 def gcd_extended(a:int, b:int):
-	# extended GCD algorith. Time complexity: O(log(min(a,b))
-	if a < b:
-		r, x, y = gcd_extended(b, a)
-		return r, y, x
-	r0, r1, r2 = a, b, 0
-	x0, x1, x2 = 1, 0, 0
-	y0, y1, y2 = 0, 1, 0
-	if r1 == 0:
-		return r0, x0, y0
-	while True:
-		r2 = r0 % r1
-		q = r0 // r1
-		x2 = x0 - q * x1
-		y2 = y0 - q * y1
-		if r2 == 0:
-			return r1, x1, y1
-		else:
-			r0, x0, y0 = r1, x1, y1
-			r1, x1, y1 = r2, x2, y2
+	# extended GCD algorith. Time complexity: O(log(max(a,b))
+	if a == 0:
+		return b, 0, 1
+	d, x, y = gcd_extended(b % a, a)
+	return d, y - b // a * x , x
 
 def prime(n):
 	# deterministic prime in O(sqrt(n))
@@ -114,7 +111,6 @@ def prime_miller_rabin(n:int, rep:int=None):
 
 def random_prime(b:int):
 	# retorna um primo aleatório no intervalo [2, 2**b) Complexidade de tempo: O(??).
-	# TODO: improve time complexity to not use "bogosort" randomness
 	if b < 2: raise ValueError(f'b must be >= 2, not {b}.')
 	x = getrandbits(b) | 1 	# force odd number
 	while not prime_miller_rabin(x):
@@ -143,6 +139,6 @@ def totient(x, primes=None):
 	out = x
 	for p in primes:
 		if x % p == 0:
-			out *= (1 - 1 / p)
+			out = (out * p - 1) // p
 		if p > x: break
-	return floor(out)
+	return out

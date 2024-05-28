@@ -22,6 +22,21 @@ with open("test/primes.txt") as file:
     for line in file:
         primes.append([int(x) for x in line.split()])
 
+@pytest.mark.parametrize("n,r", [
+    [1, 1],
+    [2, 1],
+    [3, 1],
+    [4, 2],
+    [5, 2],
+    [6, 2],
+    [7, 2],
+    [8, 2],
+    [9, 3],
+    [101, 10]
+])
+def test_isqrt(n, r):
+    assert tp.isqrt(n) == r
+
 @pytest.mark.parametrize("a,b,x,y,d", extgcd)
 def test_gcd_extended(a, b, x, y, d):
     assert tp.gcd_extended(a, b) == (d, x, y)
