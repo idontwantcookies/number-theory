@@ -9,6 +9,7 @@ found third-party implementations whose focus was on number theory.
 from functools import lru_cache
 from math import sqrt, floor, isqrt, ceil, log10
 from random import getrandbits, randint
+from fractions import Fraction
 
 def digits(n):
 	n = abs(n)
@@ -101,7 +102,7 @@ def prime_fermat(n):
 def modinv(a, n):
 	# returns b such that a * b = 1 (mod n)
 	if -2 < n < 2: raise ValueError(f'n must be an integer greater than 1.')
-	gcd, alfa, beta = gcd_extended(a, n)
+	gcd, alfa, _beta = gcd_extended(a, n)
 	if gcd != 1:
 		raise ValueError(f'{a} does not have a modular inverse in {n} because gcd({a},{n}) = {gcd} != 1.')
 	return alfa % n
@@ -192,7 +193,7 @@ def cfrac_sqrt(x):
 	while a != 2 * a0:
 		m = d * a - m
 		d = (x - m * m) / d
-		a = int((a0 + m) / d)
+		a = (a0 + m) // d
 		period.append(a)
 	return a0, period
 
@@ -264,9 +265,9 @@ def totient(x, primes=None):
 	out = x
 	for p in primes:
 		if x % p == 0:
-			out *= (1 - 1 / p)
+			out *= (p - 1) // p
 		if p > x: break
-	return int(out)
+	return out
 
 def pytagorean_triplet(a, b):
 	if a < b: a, b = b, a
